@@ -34,8 +34,8 @@ public class PseudoExecutorNode extends ParentExecutorNode {
     public void execute(CommandSender sender, List<String> args) {
         if (args.isEmpty()) {
             executor.execute(sender, new ArrayList<>());
+        } else {
+            super.execute(sender, args);
         }
-
-        super.execute(sender, args);
     }
 }
