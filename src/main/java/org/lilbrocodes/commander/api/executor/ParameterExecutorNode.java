@@ -1,8 +1,8 @@
 package org.lilbrocodes.commander.api.executor;
 
 import org.bukkit.command.CommandSender;
-import org.lilbrocodes.commander.api.argument.ArgTypes;
-import org.lilbrocodes.commander.api.argument.TypedArgument;
+import org.lilbrocodes.commander.api.argument.ParameterType;
+import org.lilbrocodes.commander.api.argument.TypedParameter;
 import org.lilbrocodes.commander.api.argument.TypedExecutor;
 import org.lilbrocodes.commander.api.util.ChatUtil;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public class ParameterExecutorNode extends ExecutorNode<ParameterExecutorNode> {
-    private final List<TypedArgument> expectedArgs;
+    private final List<TypedParameter> expectedArgs;
     private final TypedExecutor executor;
 
     /**
@@ -27,7 +27,7 @@ public class ParameterExecutorNode extends ExecutorNode<ParameterExecutorNode> {
      * @param executor the executor that handles logic for this node
      */
     public ParameterExecutorNode(String name, String description, String pluginName,
-                                 List<TypedArgument> expectedArgs,
+                                 List<TypedParameter> expectedArgs,
                                  TypedExecutor executor) {
         super(name, description, pluginName);
         this.expectedArgs = expectedArgs;
@@ -46,14 +46,14 @@ public class ParameterExecutorNode extends ExecutorNode<ParameterExecutorNode> {
         List<Object> parsed = new ArrayList<>();
         int argIndex = 0;
 
-        for (TypedArgument expectedArg : expectedArgs) {
+        for (TypedParameter expectedArg : expectedArgs) {
             if (argIndex >= args.size()) {
                 chat.error(sender, "Missing parameter: " + expectedArg.name());
                 return;
             }
 
             String raw = args.get(argIndex);
-            ArgTypes type = expectedArg.type();
+            ParameterType type = expectedArg.type();
 
             try {
                 switch (type) {
@@ -133,7 +133,7 @@ public class ParameterExecutorNode extends ExecutorNode<ParameterExecutorNode> {
             return completions;
         }
 
-        TypedArgument currentArg = expectedArgs.get(argIndex);
+        TypedParameter currentArg = expectedArgs.get(argIndex);
 
         if (!currentArg.suggestions().isEmpty()) {
             for (String suggestion : currentArg.suggestions()) {
@@ -146,7 +146,7 @@ public class ParameterExecutorNode extends ExecutorNode<ParameterExecutorNode> {
         return completions;
     }
 
-    public List<TypedArgument> getArguments() {
+    public List<TypedParameter> getArguments() {
         return expectedArgs;
     }
 

@@ -2,7 +2,7 @@ package org.lilbrocodes.commander.api.wrapper;
 
 import org.bukkit.command.*;
 import org.jetbrains.annotations.NotNull;
-import org.lilbrocodes.commander.api.argument.TypedArgument;
+import org.lilbrocodes.commander.api.argument.TypedParameter;
 import org.lilbrocodes.commander.api.executor.ExecutorNode;
 import org.lilbrocodes.commander.api.executor.ParameterExecutorNode;
 import org.lilbrocodes.commander.api.executor.ParentExecutorNode;
@@ -54,7 +54,7 @@ public class CommandExecutorWrapper implements CommandExecutor {
 
                 StringBuilder line = new StringBuilder("§7- /" + label + " " + child.getName());
                 if (child instanceof ParameterExecutorNode paramNode) {
-                    for (TypedArgument arg : paramNode.getArguments()) {
+                    for (TypedParameter arg : paramNode.getArguments()) {
                         line.append(" §8<").append(arg.name()).append(">§7");
                     }
                 }
@@ -94,7 +94,7 @@ public class CommandExecutorWrapper implements CommandExecutor {
                 printTree(sender, parentChild, path + " " + child.getName(), prefix + (isLast ? "   " : "│  "), lastChild);
             } else if (child instanceof ParameterExecutorNode paramChild) {
                 StringBuilder params = new StringBuilder();
-                for (TypedArgument arg : paramChild.getArguments()) {
+                for (TypedParameter arg : paramChild.getArguments()) {
                     params.append("<").append(arg.name()).append(":").append(arg.type().name().toLowerCase()).append(">");
                 }
                 String childLine = prefix + (isLast ? "   " : "│  ") + (lastChild ? "└─ " : "├─ ") +

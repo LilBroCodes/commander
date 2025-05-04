@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
-public class TypedArgument {
+public class TypedParameter {
     private final String name;
-    private final ArgTypes type;
+    private final ParameterType type;
     private final Supplier<List<String>> suggestions;
 
     /**
@@ -19,7 +19,7 @@ public class TypedArgument {
      * @param type The type of the argument.
      * @param suggestions Optional list of suggestions for tab completion.
      */
-    public TypedArgument(String name, ArgTypes type, @NotNull Supplier<List<String>> suggestions) {
+    public TypedParameter(String name, ParameterType type, @NotNull Supplier<List<String>> suggestions) {
         this.name = name;
         this.type = type;
         this.suggestions = suggestions;
@@ -31,7 +31,7 @@ public class TypedArgument {
      * @param name The name of the argument.
      * @param type The type of the argument.
      */
-    public TypedArgument(String name, ArgTypes type) {
+    public TypedParameter(String name, ParameterType type) {
         this.name = name;
         this.type = type;
         this.suggestions = ArrayList::new;
@@ -40,7 +40,7 @@ public class TypedArgument {
     public String name() {
         return name;
     }
-    public ArgTypes type() {
+    public ParameterType type() {
         return type;
     }
     public List<String> suggestions() {
