@@ -41,7 +41,7 @@ public class CommandExecutorWrapper implements CommandExecutor {
             return true;
         }
 
-        if (args.length >= 1 && args[0].equalsIgnoreCase("help") && root instanceof ParentExecutorNode parent) {
+        if (args.length >= 1 && args[0].equalsIgnoreCase("help") && root instanceof ParentExecutorNode parent && !hasHelpSubcommand(parent)) {
             if (args.length >= 2 && args[1].equalsIgnoreCase("tree")) {
                 sender.sendMessage("§eCommand Tree:");
                 printTree(sender, parent, label, "", true);
@@ -106,6 +106,14 @@ public class CommandExecutorWrapper implements CommandExecutor {
 
             i++;
         }
+    }
+
+    private boolean hasHelpSubcommand(ParentExecutorNode node) {
+        for (ExecutorNode<?> subNode : node.getChildren()) {
+            if (subNode.getName().equals("help")) return true;
+            else if (subNode instanceof ParentExecutorNode parentNode && hasHelpSubcommand(parentNode)) return true;
+        }
+        return false;
     }
 }
 

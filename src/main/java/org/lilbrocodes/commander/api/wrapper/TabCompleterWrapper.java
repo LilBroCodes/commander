@@ -40,7 +40,9 @@ public class TabCompleterWrapper implements TabCompleter {
                 root.tabComplete(sender, Arrays.asList(args)).stream(),
                 args.length == 1 ?
                         Stream.of("help") :
-                        Stream.empty()
+                        args.length >= 1 && args[0].equals("help") ?
+                                Stream.of("tree") :
+                                Stream.empty()
         ).toList();
     }
 }
