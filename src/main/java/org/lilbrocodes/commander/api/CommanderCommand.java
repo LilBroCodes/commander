@@ -18,7 +18,7 @@ import org.lilbrocodes.commander.api.wrapper.TabCompleterWrapper;
 @SuppressWarnings("unused")
 public class CommanderCommand {
 
-    private final ExecutorNode<ParentExecutorNode> root;
+    private ExecutorNode<ParentExecutorNode> root;
     private final boolean tabComplete;
 
     /**
@@ -43,6 +43,8 @@ public class CommanderCommand {
      *         if the command does not exist in the plugin.
      */
     public boolean register(JavaPlugin plugin, String commandName) {
+        initialize(root);
+
         PluginCommand command = plugin.getCommand(commandName);
         if (command == null) return false;
 
@@ -55,5 +57,15 @@ public class CommanderCommand {
         }
 
         return true;
+    }
+
+    /**
+     * A method that is called in {@code register} that you can override to
+     * set up the command
+     *
+     * @param root  The root object of the command.
+     */
+    public void initialize(ExecutorNode<ParentExecutorNode> root) {
+        this.root = root;
     }
 }
