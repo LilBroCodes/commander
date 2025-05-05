@@ -15,7 +15,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class CommandActionNode extends ExecutorNode<CommandActionNode> {
     private final List<TypedParameter> expectedArgs;
-    private final TypedExecutor executor;
+    private TypedExecutor executor;
 
     /**
      * Constructs a ParameterExecutorNode with the expected argument types and execution logic.
@@ -32,6 +32,19 @@ public class CommandActionNode extends ExecutorNode<CommandActionNode> {
         super(name, description, pluginName);
         this.expectedArgs = expectedArgs;
         this.executor = executor;
+    }
+
+    /**
+     * Constructs a ParameterExecutorNode with the expected argument types and execution logic.
+     *
+     * @param name the name of the node
+     * @param description the description of the node
+     * @param pluginName the name of the owning plugin
+     * @param expectedArgs the list of expected typed arguments
+     */
+    public CommandActionNode(String name, String description, String pluginName,
+                             List<TypedParameter> expectedArgs) {
+        this(name, description, pluginName, expectedArgs, null);
     }
 
     /**
@@ -123,7 +136,11 @@ public class CommandActionNode extends ExecutorNode<CommandActionNode> {
             }
         }
 
-        executor.execute(sender, parsed);
+        if (executor != null) {
+            executor.execute(sender, parsed);
+        } else {
+            chat.error(sender, String.format("Executor for command %s not set.", name));
+        }
     }
 
     /**
@@ -162,5 +179,9 @@ public class CommandActionNode extends ExecutorNode<CommandActionNode> {
     @Override
     public boolean hasSubCommands() {
         return false;
+    }
+
+    public void addExecutor(TypedExecutor executor) {
+        this.executor = executor;
     }
 }
