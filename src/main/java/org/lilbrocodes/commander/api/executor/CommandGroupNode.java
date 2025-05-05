@@ -9,7 +9,7 @@ import java.util.*;
  * A command node that can have and dispatch to child subcommands.
  */
 @SuppressWarnings("unused")
-public class ParentExecutorNode extends ExecutorNode<ParentExecutorNode> {
+public class CommandGroupNode extends ExecutorNode<CommandGroupNode> {
     private final Map<String, ExecutorNode<?>> children = new HashMap<>();
 
     /**
@@ -19,7 +19,7 @@ public class ParentExecutorNode extends ExecutorNode<ParentExecutorNode> {
      * @param description the description of the node
      * @param pluginName the name of the plugin
      */
-    public ParentExecutorNode(String name, String description, String pluginName) {
+    public CommandGroupNode(String name, String description, String pluginName) {
         super(name, description, pluginName);
     }
 

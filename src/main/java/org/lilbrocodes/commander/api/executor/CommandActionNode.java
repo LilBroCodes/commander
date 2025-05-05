@@ -13,7 +13,7 @@ import java.util.List;
  * A command node that executes logic based on expected typed parameters.
  */
 @SuppressWarnings("unused")
-public class ParameterExecutorNode extends ExecutorNode<ParameterExecutorNode> {
+public class CommandActionNode extends ExecutorNode<CommandActionNode> {
     private final List<TypedParameter> expectedArgs;
     private final TypedExecutor executor;
 
@@ -26,9 +26,9 @@ public class ParameterExecutorNode extends ExecutorNode<ParameterExecutorNode> {
      * @param expectedArgs the list of expected typed arguments
      * @param executor the executor that handles logic for this node
      */
-    public ParameterExecutorNode(String name, String description, String pluginName,
-                                 List<TypedParameter> expectedArgs,
-                                 TypedExecutor executor) {
+    public CommandActionNode(String name, String description, String pluginName,
+                             List<TypedParameter> expectedArgs,
+                             TypedExecutor executor) {
         super(name, description, pluginName);
         this.expectedArgs = expectedArgs;
         this.executor = executor;
