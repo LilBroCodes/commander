@@ -3,7 +3,7 @@ package org.lilbrocodes.commander.api.wrapper;
 import org.bukkit.command.*;
 import org.jetbrains.annotations.NotNull;
 import org.lilbrocodes.commander.api.executor.ExecutorNode;
-import org.lilbrocodes.commander.api.executor.ParentExecutorNode;
+import org.lilbrocodes.commander.api.executor.CommandGroupNode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,14 +14,14 @@ import java.util.stream.Stream;
  */
 @SuppressWarnings("unused")
 public class TabCompleterWrapper implements TabCompleter {
-    private final ExecutorNode<ParentExecutorNode> root;
+    private final ExecutorNode<CommandGroupNode> root;
 
     /**
      * Creates a new TabCompleterWrapper.
      *
      * @param root The root executor node, representing the root of the command tree.
      */
-    public TabCompleterWrapper(ExecutorNode<ParentExecutorNode> root) {
+    public TabCompleterWrapper(ExecutorNode<CommandGroupNode> root) {
         this.root = root;
     }
 

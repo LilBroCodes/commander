@@ -4,8 +4,8 @@ import org.bukkit.command.*;
 import org.jetbrains.annotations.NotNull;
 import org.lilbrocodes.commander.api.argument.TypedParameter;
 import org.lilbrocodes.commander.api.executor.ExecutorNode;
-import org.lilbrocodes.commander.api.executor.ParameterExecutorNode;
-import org.lilbrocodes.commander.api.executor.ParentExecutorNode;
+import org.lilbrocodes.commander.api.executor.CommandActionNode;
+import org.lilbrocodes.commander.api.executor.CommandGroupNode;
 
 import java.util.Arrays;
 
@@ -14,14 +14,14 @@ import java.util.Arrays;
  */
 @SuppressWarnings("unused")
 public class CommandExecutorWrapper implements CommandExecutor {
-    private final ExecutorNode<ParentExecutorNode> root;
+    private final ExecutorNode<CommandGroupNode> root;
 
     /**
      * Creates a new CommandExecutorWrapper.
      *
      * @param root The root executor node, representing the root of the command tree.
      */
-    public CommandExecutorWrapper(ExecutorNode<ParentExecutorNode> root) {
+    public CommandExecutorWrapper(ExecutorNode<CommandGroupNode> root) {
         this.root = root;
     }
 
@@ -41,7 +41,7 @@ public class CommandExecutorWrapper implements CommandExecutor {
             return true;
         }
 
-        if (args.length >= 1 && args[0].equalsIgnoreCase("help") && root instanceof ParentExecutorNode parent && !hasHelpSubcommand(parent)) {
+        if (args.length >= 1 && args[0].equalsIgnoreCase("help") && root instanceof CommandGroupNode parent && !hasHelpSubcommand(parent)) {
             if (args.length >= 2 && args[1].equalsIgnoreCase("tree")) {
                 sender.sendMessage("§eCommand Tree:");
                 printTree(sender, parent, label, "", true);
@@ -53,7 +53,7 @@ public class CommandExecutorWrapper implements CommandExecutor {
                 if (!child.hasPermission(sender)) continue;
 
                 StringBuilder line = new StringBuilder("§7- /" + label + " " + child.getName());
-                if (child instanceof ParameterExecutorNode paramNode) {
+                if (child instanceof CommandActionNode paramNode) {
                     for (TypedParameter arg : paramNode.getArguments()) {
                         line.append(" §8<").append(arg.name()).append(">§7");
                     }
@@ -78,7 +78,7 @@ public class CommandExecutorWrapper implements CommandExecutor {
      * @param prefix The prefix used for formatting the tree.
      * @param isLast Indicates whether this is the last child in the tree.
      */
-    private void printTree(CommandSender sender, ParentExecutorNode node, String path, String prefix, boolean isLast) {
+    private void printTree(CommandSender sender, CommandGroupNode node, String path, String prefix, boolean isLast) {
         if (!node.hasPermission(sender)) return;
 
         String branch = prefix + (isLast ? "└─ " : "├─ ");
@@ -90,9 +90,9 @@ public class CommandExecutorWrapper implements CommandExecutor {
         for (ExecutorNode<?> child : visibleChildren) {
             boolean lastChild = (visibleChildren.size() - 1) == i;
 
-            if (child instanceof ParentExecutorNode parentChild) {
+            if (child instanceof CommandGroupNode parentChild) {
                 printTree(sender, parentChild, path + " " + child.getName(), prefix + (isLast ? "   " : "│  "), lastChild);
-            } else if (child instanceof ParameterExecutorNode paramChild) {
+            } else if (child instanceof CommandActionNode paramChild) {
                 StringBuilder params = new StringBuilder();
                 for (TypedParameter arg : paramChild.getArguments()) {
                     params.append("<").append(arg.name()).append(":").append(arg.type().name().toLowerCase()).append(">");
@@ -108,10 +108,10 @@ public class CommandExecutorWrapper implements CommandExecutor {
         }
     }
 
-    private boolean hasHelpSubcommand(ParentExecutorNode node) {
+    private boolean hasHelpSubcommand(CommandGroupNode node) {
         for (ExecutorNode<?> subNode : node.getChildren()) {
             if (subNode.getName().equals("help")) return true;
-            else if (subNode instanceof ParentExecutorNode parentNode && hasHelpSubcommand(parentNode)) return true;
+            else if (subNode instanceof CommandGroupNode parentNode && hasHelpSubcommand(parentNode)) return true;
         }
         return false;
     }

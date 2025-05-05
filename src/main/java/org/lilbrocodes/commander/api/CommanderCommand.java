@@ -2,7 +2,7 @@ package org.lilbrocodes.commander.api;
 
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.lilbrocodes.commander.api.executor.ParentExecutorNode;
+import org.lilbrocodes.commander.api.executor.CommandGroupNode;
 import org.lilbrocodes.commander.api.wrapper.CommandExecutorWrapper;
 import org.lilbrocodes.commander.api.executor.ExecutorNode;
 import org.lilbrocodes.commander.api.wrapper.TabCompleterWrapper;
@@ -18,7 +18,7 @@ import org.lilbrocodes.commander.api.wrapper.TabCompleterWrapper;
 @SuppressWarnings("unused")
 public class CommanderCommand {
 
-    private ExecutorNode<ParentExecutorNode> root;
+    private ExecutorNode<CommandGroupNode> root;
     private final boolean tabComplete;
 
     /**
@@ -28,7 +28,7 @@ public class CommanderCommand {
      * @param root        The root executor node, which defines the command structure.
      * @param tabComplete A flag to specify whether tab completion should be enabled.
      */
-    public CommanderCommand(ExecutorNode<ParentExecutorNode> root, boolean tabComplete) {
+    public CommanderCommand(ExecutorNode<CommandGroupNode> root, boolean tabComplete) {
         this.root = root;
         this.tabComplete = tabComplete;
     }
@@ -65,7 +65,7 @@ public class CommanderCommand {
      *
      * @param root  The root object of the command.
      */
-    public void initialize(ExecutorNode<ParentExecutorNode> root) {
+    public void initialize(ExecutorNode<CommandGroupNode> root) {
         this.root = root;
     }
 }
