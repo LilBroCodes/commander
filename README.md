@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/LilBroCodes/Commander.svg)](https://jitpack.io/#LilBroCodes/Commander)
+
 # Commander
 
 **Commander** is a Java command framework built for Bukkit/Spigot/Paper Minecraft plugins. It provides a clean, class-based system for registering commands with full tab-completion and parameter validation — all while being easy to use and extend.
