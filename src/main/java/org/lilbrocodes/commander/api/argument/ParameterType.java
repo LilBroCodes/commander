@@ -6,6 +6,7 @@ public enum ParameterType {
     QUOTED_STRING,      // Quotes around it define argument start/end, spaces are counted as characters
     GREEDY_STRING,      // No quotes needed, EVERY character after it's start is counted as this argument
     SHORT,              // Short
-    INT,                // Int
-    LONG                // Long
+    INT,                // Integer
+    LONG,               // Long
+    BOOL                // Boolean
 }

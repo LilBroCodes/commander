@@ -34,7 +34,11 @@ public class TypedParameter {
     public TypedParameter(String name, ParameterType type) {
         this.name = name;
         this.type = type;
-        this.suggestions = ArrayList::new;
+        if (type == ParameterType.BOOL) {
+            this.suggestions = () -> List.of("true", "false");
+        } else {
+            this.suggestions = ArrayList::new;
+        }
     }
 
     public String name() {
