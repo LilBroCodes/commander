@@ -14,21 +14,4 @@
 
 ---
 
-## 📦 Installation
-1. Add the cloudsmith repository to your Gradle config
-
-```groovy
-repositories {
-    maven {
-        name = "commander"
-        url = "https://dl.cloudsmith.io/qshTFUucaaD2Gctc/lilbrocodes/commander/maven/"
-    }
-}
-```
-
-2. Add as a dependency using Gradle (if you deploy to a maven repo):
-
-```groovy
-dependencies {
-    implementation 'org.lilbrocodes:commander:<version>'
-}
+For installation & usage guides, refer to the [wiki](https://github.com/LilBroCodes/Commander/wiki). 

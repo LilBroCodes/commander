@@ -66,32 +66,3 @@ tasks.register('sourcesJar', Jar) {
     from sourceSets.main.allSource
     archiveClassifier.set('sources')
 }
-
-publishing {
-    publications {
-        commander(MavenPublication) {
-            from components.java
-            groupId = 'org.lilbrocodes'
-            artifactId = 'commander'
-            version = version
-
-            // Add the sources jar
-            artifact tasks.sourcesJar
-        }
-    }
-
-    repositories {
-        maven {
-            name = "cloudsmith"
-            url = uri("https://maven.cloudsmith.io/lilbrocodes/commander/")
-            credentials {
-                username = project.findProperty("CLOUDSMITH_USERNAME") ?: System.getenv("CLOUDSMITH_USERNAME")
-                password = project.findProperty("CLOUDSMITH_API_KEY") ?: System.getenv("CLOUDSMITH_API_KEY")
-            }
-        }
-    }
-}
-
-tasks.named("generateMetadataFileForCommanderPublication") {
-    dependsOn tasks.sourcesJar
-}
