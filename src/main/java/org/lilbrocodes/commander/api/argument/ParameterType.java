@@ -8,5 +8,7 @@ public enum ParameterType {
     SHORT,              // Short
     INT,                // Integer
     LONG,               // Long
-    BOOL                // Boolean
+    BOOL,               // Boolean
+    DOUBLE,             // Double
+    FLOAT               // Float
 }

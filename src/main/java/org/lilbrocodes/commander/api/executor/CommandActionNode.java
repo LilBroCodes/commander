@@ -92,7 +92,7 @@ public class CommandActionNode extends ExecutorNode<CommandActionNode> {
                             return;
                         }
 
-                        if (raw.equals("\"")) {
+                        if (quoted.toString().equals("\"")) {
                             chat.error(sender, "Quoted string missing content and end quote.");
                             return;
                         }
@@ -120,13 +120,24 @@ public class CommandActionNode extends ExecutorNode<CommandActionNode> {
                         parsed.add(Long.parseLong(raw));
                         argIndex++;
                     }
+                    case FLOAT -> {
+                        parsed.add(Float.parseFloat(raw));
+                        argIndex++;
+                    }
+                    case DOUBLE -> {
+                        parsed.add(Double.parseDouble(raw));
+                        argIndex++;
+                    }
                     case BOOL -> {
                         if (raw.equalsIgnoreCase("true")) {
                             parsed.add(true);
+                            argIndex++;
                         } else if (raw.equalsIgnoreCase("false")) {
                             parsed.add(false);
+                            argIndex++;
                         } else {
                             chat.error(sender, String.format("Invalid value for boolean parameter '%s': '%s' - must be either 'true' or 'false'.", expectedArg.name(), raw));
+                            return;
                         }
                     }
                 }
@@ -142,6 +153,7 @@ public class CommandActionNode extends ExecutorNode<CommandActionNode> {
             chat.error(sender, String.format("Executor for command %s not set.", name));
         }
     }
+
 
     /**
      * Handles tab completion for the parameters of this node.
