@@ -33,6 +33,18 @@ public class CommandGroupNode extends ExecutorNode<CommandGroupNode> {
     }
 
     /**
+     * Adds multiple subcommands to this node.
+     *
+     * @param nodes the child ExecutorNodes to add
+     */
+    public final void addChildren(ExecutorNode<?>... nodes) {
+        for (ExecutorNode<?> node : nodes) {
+            addChild(node);
+        }
+    }
+
+
+    /**
      * Executes a subcommand based on the first argument.
      *
      * @param sender the command sender
