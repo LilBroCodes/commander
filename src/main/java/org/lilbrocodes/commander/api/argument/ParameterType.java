@@ -10,5 +10,6 @@ public enum ParameterType {
     LONG,               // Long
     BOOL,               // Boolean
     DOUBLE,             // Double
-    FLOAT               // Float
+    FLOAT,              // Float,
+    ENUM                // Enum
 }

@@ -11,43 +11,51 @@ public class TypedParameter {
     private final String name;
     private final ParameterType type;
     private final Supplier<List<String>> suggestions;
+    private final Class<? extends Enum<?>> enumClass; // Only used for ENUM
 
-    /**
-     * Creates a new TypedArgument.
-     *
-     * @param name The name of the argument.
-     * @param type The type of the argument.
-     * @param suggestions Optional list of suggestions for tab completion.
-     */
     public TypedParameter(String name, ParameterType type, @NotNull Supplier<List<String>> suggestions) {
+        this(name, type, suggestions, null);
+    }
+
+    public TypedParameter(String name, ParameterType type) {
+        this(name, type, type == ParameterType.BOOL ? () -> List.of("true", "false") : ArrayList::new, null);
+    }
+
+    public TypedParameter(String name, Class<? extends Enum<?>> enumClass) {
+        this(name, ParameterType.ENUM,
+                () -> {
+                    List<String> values = new ArrayList<>();
+                    for (Enum<?> constant : enumClass.getEnumConstants()) {
+                        values.add(constant.name());
+                    }
+                    return values;
+                },
+                enumClass
+        );
+    }
+
+    private TypedParameter(String name, ParameterType type,
+                           Supplier<List<String>> suggestions,
+                           Class<? extends Enum<?>> enumClass) {
         this.name = name;
         this.type = type;
         this.suggestions = suggestions;
-    }
-
-    /**
-     * Creates a new TypedArgument.
-     *
-     * @param name The name of the argument.
-     * @param type The type of the argument.
-     */
-    public TypedParameter(String name, ParameterType type) {
-        this.name = name;
-        this.type = type;
-        if (type == ParameterType.BOOL) {
-            this.suggestions = () -> List.of("true", "false");
-        } else {
-            this.suggestions = ArrayList::new;
-        }
+        this.enumClass = enumClass;
     }
 
     public String name() {
         return name;
     }
+
     public ParameterType type() {
         return type;
     }
+
     public List<String> suggestions() {
         return suggestions.get();
+    }
+
+    public Class<? extends Enum<?>> enumClass() {
+        return enumClass;
     }
 }

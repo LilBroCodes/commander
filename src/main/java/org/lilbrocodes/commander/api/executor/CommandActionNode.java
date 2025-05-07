@@ -140,6 +140,25 @@ public class CommandActionNode extends ExecutorNode<CommandActionNode> {
                             return;
                         }
                     }
+                    case ENUM -> {
+                        Class<? extends Enum<?>> enumClass = expectedArg.enumClass();
+                        if (enumClass == null) {
+                            chat.error(sender, "No enum class provided for parameter: " + expectedArg.name());
+                            return;
+                        }
+
+                        try {
+                            Enum<?> value = Enum.valueOf(enumClass.asSubclass(Enum.class), raw.toUpperCase());
+                            parsed.add(value);
+                            argIndex++;
+                        } catch (IllegalArgumentException e) {
+                            chat.error(sender, "Invalid value for enum parameter '" + expectedArg.name() +
+                                    "': " + raw + ". Expected one of: " +
+                                    String.join(", ", expectedArg.suggestions()));
+                            return;
+                        }
+                    }
+
                 }
             } catch (NumberFormatException e) {
                 chat.error(sender, "Invalid number for parameter '" + expectedArg.name() + "': " + raw);
